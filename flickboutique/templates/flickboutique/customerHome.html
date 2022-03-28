@@ -1,0 +1,41 @@
+{% extends "flickboutique/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <main>
+
+        {% if pageVisits == 1 %}
+        <div class="p-5 bg-info text-white">
+            <h1>Welcome, {{ request.user.first_name }}!</h1>
+        </div>
+        {% endif %}
+
+        {% block nav %}{{ block.super }}{% endblock %}
+        {% block defaultColorScheme %}{{ block.super }}{% endblock %}
+        {% block userColorScheme %}{{ block.super }}{% endblock %}
+
+        <div id="feedContainer" class="container my-5">
+
+            <div class="row">
+                {% for business in businesses %}
+                <div class="col-md-6">
+                    <a style="text-shadow: 1px 1px 2px #000000;" class="productCard card m-2 rounded" href="{% url 'flickboutique:businessView' username=business.user.username %}">
+                        <div class="cardImage card-img-top p-2" style="background-image: url('{{ business.profileBanner.url }}'); background-position: bottom; background-attachment: fixed; background-size: cover; width: 100%;">
+                            <img class="m-3 rounded-circle border bg-secondary" src="{% if business.profilePicture %}{{ business.profilePicture.url }}{% endif %}" height="80px" width="80px">
+                            {% if not business.colorScheme.logo %}<strong style="font-size: 1.5em;">{{ business.user.first_name }}</strong>{% else %}<img src="{{ business.colorScheme.logo.url }}" height="60em" style="filter: drop-shadow(1px 1px 2px #000000);">{% endif %}
+                            <div class="card-body" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{% if business.bio %}{{ business.bio }}{% else %}No information available.{% endif %}</div>
+                            <div class="card-footer">Rating: {{ business.rating|floatformat:2 }}/5 (out of {{ business.totalRatings }} rating{% if business.totalRatings > 1 %}s{% elif business.totalRatings == 0 %}s{% endif %})</div>
+                        </div>
+                    </a>
+                </div>
+                {% empty %}
+                <h1 class="container">There are no products available.</h1>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </main>
+
+{% endblock %}

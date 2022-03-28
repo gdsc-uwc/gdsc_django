@@ -1,0 +1,61 @@
+{% extends 'flickboutique/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+    {% block nav %}{{ block.super }}{% endblock %}
+    {% block userColorScheme %}{{ block.super }}{% endblock %}
+
+    <main>
+        <div class="text-center p-5 text-white" style="background-image: url('{{ businessInfo.profileBanner.url }}'); background-position: bottom; background-attachment: fixed;">
+            <h1>Edit your business profile!</h1>
+            <div class="pt-4">
+                <form enctype="multipart/form-data" action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user" value="{{ request.user.username }}">
+                    <div class="m-3">
+                        <img src="{% if userBusinessInfo.profilePicture %}{{ userBusinessInfo.profilePicture.url }}{% else %}https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png{% endif %}" alt="" class="rounded-circle m-3" width="200px" height="200px">
+                        <label for="editProfilePicture">Change profile picture: <input name="editProfilePicture" type="file" class="form-control" required></label>
+                        <input type="submit" name="changeProfilePicture" class="btn btn-primary m-3" value="Change picture">
+                    </form>
+                    <form enctype="multipart/form-data" action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
+                        {% csrf_token %}
+                        <label for="editProfileBanner">Change profile banner: <input name="editProfileBanner" type="file" class="form-control" required></label>
+                        <input type="submit" name="changeProfileBanner" class="btn btn-primary m-3" value="Change banner">
+                    </form>
+                    </div>
+                
+                <form action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user" value="{{ request.user.username }}">
+                    <label for="editBusinessName">Business Name:</label>
+                    <input name="editBusinessName" type="textarea" class="form-control" placeholder="{{ request.user.first_name }}" required>
+                    <input type="submit" name="changeBusinessName" class="btn btn-primary m-3" value="Submit">
+                </form>
+                <form action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user" value="{{ request.user.username }}">
+                    <label for="editUsername">Username:</label>
+                    <input name="editUsername" type="textarea" class="form-control" placeholder="@{{ request.user.username }}" required>
+                    <input type="submit" name="changeUsername" class="btn btn-primary m-3" value="Submit">
+                </form>
+                <form action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user" value="{{ request.user.username }}">
+                    <label for="editBio">Bio:</label>
+                    <input name="editBio" type="textarea" class="form-control" value="{{ businessInfo.bio }}" required>
+                    <input type="submit" name="changeBio" class="btn btn-primary m-3" value="Submit">
+                </form>
+            </div>
+        </div>
+        <form class="p-5" action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
+            <h2>Change Address:</h2>
+            <input type="hidden" name="user" value="{{ request.user.username }}">
+            <input type="text" class="form-control mb-3" name="editStreetAddress" placeholder="{{ businessInfo.streetAddress }}" required>
+            <input type="text" class="form-control mb-3" name="editSuburb" placeholder="{{ businessInfo.suburb }}" required>
+            <input type="text" class="form-control mb-3" name="editCity" placeholder="{{ businessInfo.city }}" required>
+            <input type="text" class="form-control mb-3" name="editPostalCode" placeholder="{{ businessInfo.postalCode }}" required>
+            <input type="submit" name="changeAddress" class="btn btn-primary" value="Submit">
+        </form>
+    </main>
+{% endblock %}

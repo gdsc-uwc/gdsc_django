@@ -1,0 +1,195 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0"> <!-- user-scalable attribute disables zoom -->
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&amp;display=swap" rel="stylesheet">
+
+    <title>flickBoutique</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+
+        html, body {
+            max-width: 100%;
+        }       
+
+        body {
+            font-family: "Raleway", sans-serif;
+            color: black;
+        }
+
+        .productCard {
+            text-decoration: none;
+        }
+
+        #navMenu.dropdown:last-child .dropdown-menu {
+            right: 0;
+            left: auto;
+        }
+
+        #navMenu {
+            list-style-type: none;
+        }
+
+        .profilePicture {
+            border-radius: 100%;
+        }
+
+        input[type="color"] {
+            height: 100px;
+            border: none;
+        }
+
+        .backgroundMain {
+            background-image: url("{% static 'images/bkground.gif' %}");
+        }
+
+    </style>
+
+</head>
+
+<!-- Body starts here -->
+<body>
+    {% block body %}
+
+        {% block defaultColorScheme %}
+
+        <style>
+
+            #businessNav .nav-link, #navbarBrand {
+                color: #ffffff;
+            }
+
+            #businessNav {
+                background-color: #410187;
+            }
+
+            body {
+                background-color: #f4e8ff;
+            }
+
+            .productCard {
+                background-color: #6c00ce;
+                color: #ffffff;
+            }
+
+            .productCard:hover {
+                border: 1px solid #d733ff;
+                box-shadow: 0px 0px 3px #d733ff;
+                color: #ffffff;
+            }
+
+            .productCard:active {
+                border: 1px solid #ff800d;
+                box-shadow: 0px 0px 3px #ff800d;
+            }
+        </style>
+    {% endblock %}
+
+        {% block userColorScheme %}
+
+            <style>
+
+                #businessNav .nav-link, #navbarBrand {
+                    color: {{ businessInfo.colorScheme.textColor }};
+                }
+
+                #businessNav {
+                    background-color: {{ businessInfo.colorScheme.accentColor }};
+                }
+
+                body {
+                    background-color: {{ businessInfo.colorScheme.backgroundColor }};
+                }
+
+                .productCard {
+                    background-color: {{ businessInfo.colorScheme.productCardColor }};
+                    color: {{ businessInfo.colorScheme.secondaryTextColor }}
+                }
+
+                .productCard:hover {
+                    border: 1px solid {{ businessInfo.colorScheme.productCardGlowColor1 }};
+                    box-shadow: 0px 0px 3px {{ businessInfo.colorScheme.productCardGlowColor1 }};
+                    color: {{ businessInfo.colorScheme.secondaryTextColor }};
+                }
+
+                .productCard:active {
+                    border: 1px solid {{ businessInfo.colorScheme.productCardGlowColor2 }};
+                    box-shadow: 0px 0px 3px {{ businessInfo.colorScheme.productCardGlowColor2 }};
+                }
+            </style>
+        {% endblock %}
+
+        {% block nav %}
+
+            <header id="businessNav" class="navbar navbar-expand-sm navbar-custom navbar-light sticky-top">
+                
+                <div class="container-fluid">
+                    <a class="navbar-brand" id="navbarBrand" href=".">{% if businessInfo.colorScheme.logo %}<img src="{{ businessInfo.colorScheme.logo.url }}" height="50px">{% else %}{{ businessInfo.user.first_name }}{% endif %}{% if not businessInfo %}<img src="{{ defaultScheme.logo.url }}" height="50px">{% endif %}</a>
+                    
+                    <!-- Navigation menu-->
+                    <li id="navMenu" class="nav-item dropdown dropdown-menu-right">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Menu</a>
+                    
+                        <ul class="dropdown-menu">
+                            <!--<li>
+                                <a class="dropdown-item" href="#">
+                                    <form action="/action_page.php">
+                                        <input class="form-control" type="text" placeholder="Search.." name="search">
+                                    </form>
+                                </a>
+                            </li>-->
+                            {% if userBusinessInfo %}
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:businessView' username=request.user.username %}">View profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:businessHome' %}">Manage products</a></li>
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:viewBusinessOrders' %}">View business orders</a></li>
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:manageSite' %}">Manage site</a></li>
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:editBusinessProfilePage' username=request.user.username %}">Manage business profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:registerProduct' %}">Register a product</a></li>
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:businessConversationsList' business=request.user.username %}">Customer messages</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:customerConversationsList' %}">View conversations with businesses</a></li>
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:customerHome' %}">Go to Marketplace</a></li>
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:viewCustomerOrders' %}">View active orders</a></li>
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:cart' %}">Go to shopping cart</a></li>
+                            <li><a class="dropdown-item" href="{% url 'flickboutique:userLogout' %}">Logout</a></li>
+                        </ul>
+                    </li>
+
+                </div>
+
+            </header>
+        {% endblock %}
+        {% block footer %}
+            <footer class="bg-light text-black p-5 border text-center">
+                <h1>Legal text here...</h1>
+                <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore impedit nostrum neque eligendi obcaecati natus consequatur molestiae explicabo accusamus consectetur error animi similique culpa, perspiciatis nemo beatae sequi at recusandae!</div>
+            </footer>
+        {% endblock %}
+
+        {% block centerStyle %}
+            <style>
+                html, body {
+                    height: 100vh;
+                    max-height: 100vh;
+                }
+            </style>
+        {% endblock %}
+
+    {% endblock %}
+
+</body>
+
+</html>

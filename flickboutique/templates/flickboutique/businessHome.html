@@ -1,0 +1,46 @@
+{% extends "flickboutique/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <main>
+
+        {% if pageVisits == 1 %}
+        <div class="p-5 bg-info text-white">
+            <h1>Welcome {% if request.user.last_login %}back{% endif %}{% if request.user.username %}, {{ request.user.first_name }}{% endif %}!</h1>
+        </div>
+        {% endif %}
+
+        {% block nav %}{{ block.super }}{% endblock %}
+
+        {% block userColorScheme %}{{ block.super }}{% endblock %}
+
+        <div class="container mt-5">This is where you can manage your business' products and services.</div>
+
+        <div id="feedContainer" class="container my-5">
+
+            <div class="row">
+                {% for product in products %}
+                <div class="col-md-3">
+                    <a class="productCard card m-2" href="{% url 'flickboutique:productPage' productURL=product.productURL %}">
+                        <div class="card-header">{{ product.productName }}</div>
+                        <div class="cardImage"><img class="card-img-top" src="{{ product.productImage.url }}" width="250px" height="250px"></div>
+                        <div class="card-body" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ product.productInformation }}</div>
+                        <div class="card-footer">R{{ product.productPrice|floatformat:2 }}</div>
+                        <form action="{% url 'flickboutique:deleteProduct' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="productURL" value="{{ product.productURL }}">
+                            <div class="card-footer"><button type="submit" class="btn btn-danger">Delete</button></div>
+                        </form>
+                    </a>
+                </div>
+                {% empty %}
+                <h1 class="container">There are no products available.</h1>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </main>
+
+{% endblock %}

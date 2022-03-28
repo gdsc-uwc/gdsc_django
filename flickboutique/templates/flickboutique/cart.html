@@ -1,0 +1,45 @@
+{% extends "flickboutique/layout.html" %}
+
+
+{% block body %}
+    {% block nav %}{{ block.super }}{% endblock %}
+    {% block defaultColorScheme %}{{ block.super }}{% endblock %}
+    {% block userColorScheme %}{{ block.super }}{% endblock %}
+    <div class="container py-5">
+        {% if cart %}
+            {% if cart.items.all|length > 0 %}
+                <h1>Your items:</h1>
+            {% endif %}
+            {% for item in cart.items.all %}
+                <ul class="container" style="list-style-type: none; padding-left: 0;">
+                    <li class="bg-dark text-white rounded py-3">
+                        <div class="d-flex">
+                            <img class="rounded mx-3" src="{{ item.item.productImage.url }}" height="100px" width="100px">
+                            <div class="mx-3">
+                                <h4>{{ item }} (x{{ item.quantity }})</h4>
+                                by <strong>{{ item.item.soldBy.first_name }}</strong>
+                                <h4>R{{ item.item.productPrice|floatformat:2 }}</h4>
+                            </div>
+                        </div>
+                        <form action="{% url 'flickboutique:deleteFromCart' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="cartItemId" value="{{ item.id }}">
+                            <button type="submit" class="btn btn-danger mx-3 mt-3">Delete</button>
+                        </form>
+                    </li>
+                </ul>
+            {% empty %}
+                <p>Your shopping cart is empty.</p>
+                <a class="btn btn-primary" href="{% url 'flickboutique:customerHome' %}">Buy Now!</a>
+            {% endfor %}
+            {% if cart.items.all|length > 0 %}
+                <a class="btn btn-primary" href="{% url 'flickboutique:paymentsProcessing' %}">Checkout</a>
+                <a class="btn btn-primary" href="{% url 'flickboutique:customerHome' %}">Buy More</a>
+                <h2 class="my-3">Total: R{{ totalPrice|floatformat:2 }}</h2>
+            {% endif %}
+        {% else %}
+            <p>Your shopping cart is empty.</p>
+            <a class="btn btn-primary" href="{% url 'flickboutique:customerHome' %}">Buy Now!</a>
+        {% endif %}
+    </div>
+{% endblock %}

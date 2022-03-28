@@ -1,0 +1,22 @@
+{% extends "flickboutique/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+        {% if error %}
+            <div class="bg-danger text-white p-3">
+                <h1>{{ error }}</h1>
+            </div>
+        {% endif %}
+
+        {% block centerStyle %}{{ block.super }}{% endblock %}
+
+        <main class="d-flex align-items-center bg-light h-100">
+            <form class="container" action="{% url 'flickboutique:registerProduct' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %} <!-- Cross Site Request Forgery Protection -->
+                {{ form }}
+                <input class="btn btn-primary" type="submit" value="Register">
+            </form>
+        </main>
+
+{% endblock %}

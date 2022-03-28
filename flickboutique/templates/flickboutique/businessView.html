@@ -1,0 +1,69 @@
+{% extends "flickboutique/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <main>
+
+        {% block nav %}{{ block.super }}{% endblock %}
+        {% block userColorScheme %}{{ block.super }}{% endblock %}
+
+        <div class="text-center p-5" style="background-image: url('{{ businessInfo.profileBanner.url }}'); background-position: bottom; background-attachment: fixed; text-shadow: 1px 1px 2px #000000;">
+            <img src="{% if businessInfo.profilePicture %}{{ businessInfo.profilePicture.url }}{% else %}https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png{% endif %}" alt="" class="rounded-circle bg-secondary border" width="200px" height="200px">
+            <div class="text-white pt-4">
+                <h1>{{ business.first_name }}</h1>
+                <p>(@{{ business.username }})</p>
+                <p>{{ businessInfo.bio }}</p>
+                <p>Rating: {{ businessInfo.rating|floatformat:2 }}/5 (out of {{ businessInfo.totalRatings }} rating{% if businessInfo.totalRatings > 1 %}s{% elif businessInfo.totalRatings == 0 %}s{% endif %})</p>
+                {% if request.user in businessInfo.raters.all %}
+                <p class="mt-3">You have already rated this business.</p>
+                {% elif request.user == businessInfo.user %}
+                <div></div>
+                {% else %}
+                <form action="{% url 'flickboutique:rateBusiness' %}" method="post" class="mb-3">
+                    {% csrf_token %}
+                    <input type="hidden" name="businessName" value="{{ businessInfo.user.username }}">
+                    <input type="number" name="businessRating" placeholder="Rate (1-5)" class="form-control my-2" min="1" max="5" required>
+                    <input class="btn btn-primary" type="submit" value="Submit Rating">
+                </form>
+                {% endif %}
+                {% if request.user.username == business.username %}
+                    <a class="btn btn-primary" href="{% url 'flickboutique:editBusinessProfilePage' username=business.username %}">Edit profile</a>
+                {% endif %}
+                <a href="{% url 'flickboutique:orderCustomerConversation' business=business.username %}" class="btn btn-primary">Message</a>
+            </div>
+        </div>
+        <div class="container py-5">
+            <h2>Where to find us:</h2>
+            {{ businessInfo.streetAddress }}<br>
+            {{ businessInfo.suburb }}<br>
+            {{ businessInfo.city }}, {{ businessInfo.country }}<br>
+            {{ businessInfo.postalCode }}<br>
+        </div>
+
+        <div class="container">
+            <h1>Our products:</h1>
+        </div>
+
+        <div id="feedContainer" class="container my-2">
+
+            <div class="row">
+                {% for product in products %}
+                <div class="col-md-3">
+                    <a class="productCard card m-2" href="{% url 'flickboutique:productPage' productURL=product.productURL %}">
+                        <div class="card-header">{{ product.productName }}</div>
+                        <div class="cardImage"><img class="card-img-top" src="{{ product.productImage.url }}" width="250px" height="250px"></div>
+                        <div class="card-body" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ product.productInformation }}</div>
+                        <div class="card-footer">R{{ product.productPrice|floatformat:2 }}</div>
+                    </a>
+                </div>
+                {% empty %}
+                <h1 class="container">There are no products available.</h1>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </main>
+
+{% endblock %}

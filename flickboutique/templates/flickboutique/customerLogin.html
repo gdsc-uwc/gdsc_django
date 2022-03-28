@@ -1,0 +1,30 @@
+{% extends "flickboutique/layout.html" %}
+
+{% block body %}
+
+    <!-- This displays the (customer) login form -->
+    {% if error %}
+        <div class="bg-danger text-white p-3 fixed-top">
+            <h1>{{ error }}</h1>
+        </div>
+    {% endif %}
+
+    {% block centerStyle %}{{ block.super }}{% endblock %}
+
+    
+    
+    <main class="backgroundMain d-flex align-items-center h-100 bg-light">
+        <form action="{% url 'flickboutique:customerLogin' %}" method="POST" class="container bg-dark text-center text-white rounded p-5">
+        
+            {% csrf_token %} <!-- Cross Site Request Forgery Protection -->
+            <h1 class="text-center">Welcome back, customer!</h1>
+            {{ form }}
+            <input type="submit" class="btn btn-primary" value="Login!">
+    
+            <div class="container-fluid mt-3 mb-4 text-center"><a href="{% url 'flickboutique:businessLogin' %}">Do you own a business? Login here instead!</a></div>
+            <div class="container-fluid mt-3 text-center"><a href="{% url 'flickboutique:customerSignup' %}">Or don't have an account yet? Sign up here!</a></div>
+        </form>
+    </main>
+    
+
+{% endblock %}

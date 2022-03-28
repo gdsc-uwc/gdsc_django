@@ -1,0 +1,216 @@
+{% extends "flickboutique/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% block nav %}{{ block.super }}{% endblock %}
+
+    {% block userColorScheme %}{{ block.super }}{% endblock %}
+
+    <script>
+        var accentColorPicker;
+        var backgroundColorPicker;
+        var textColorPicker;
+        var secondaryTextColorPicker;
+        var productCardColorPicker;
+        var productCardGlowColor1Picker;
+        var productCardGlowColor2Picker;
+
+        window.addEventListener("load", startup, false);
+
+        function startup() {
+            accentColorPicker = document.querySelector("#accentColor");
+            accentColorPicker.addEventListener("input", updateHeaderFirst, false);
+            accentColorPicker.addEventListener("change", updateHeader, false);
+            accentColorPicker.select();
+
+            backgroundColorPicker = document.querySelector("#backgroundColor");
+            backgroundColorPicker.addEventListener("input", updateBackgroundFirst, false);
+            backgroundColorPicker.addEventListener("change", updateBackground, false);
+            backgroundColorPicker.select();
+
+            textColorPicker = document.querySelector("#textColor");
+            textColorPicker.addEventListener("input", updateTextFirst, false);
+            textColorPicker.addEventListener("change", updateText, false);
+            textColorPicker.select();
+
+            secondaryTextColorPicker = document.querySelector("#secondaryTextColor");
+            secondaryTextColorPicker.addEventListener("input", updateSecondaryTextFirst, false);
+            secondaryTextColorPicker.addEventListener("change", updateSecondaryText, false);
+            secondaryTextColorPicker.select();
+
+            productCardColorPicker = document.querySelector("#productCardColor");
+            productCardColorPicker.addEventListener("input", updateProductCardFirst, false);
+            productCardColorPicker.addEventListener("change", updateProductCard, false);
+            productCardColorPicker.select();
+
+            productCardGlowColor1Picker = document.querySelector("#productCardGlowColor1");
+
+            productCardGlowColor2Picker = document.querySelector("#productCardGlowColor2");
+
+        }
+
+        function updateHeaderFirst(event) {
+            var header = document.querySelector("#businessNav");
+
+            if (header) {
+                header.style.backgroundColor = event.target.value;
+            }
+
+        }
+
+        function updateHeader(event) {
+            document.querySelectorAll("#businessNav").forEach(function(header) {
+                header.style.backgroundColor = event.target.value;
+            });
+        }
+
+        function updateBackgroundFirst(event) {
+            var background = document.querySelector("body");
+
+            if (background) {
+                background.style.backgroundColor = event.target.value;
+            }
+
+        }
+
+        function updateBackground(event) {
+            document.querySelectorAll("body").forEach(function(background) {
+                background.style.backgroundColor = event.target.value;
+            });
+        }
+
+        function updateTextFirst(event) {
+            var text = document.querySelector(".navbar-brand");
+            var text2 = document.querySelector(".nav-link");
+
+            if (text && text2) {
+                text.style.color = event.target.value;
+                text2.style.color = event.target.value;
+            }
+
+        }
+
+        function updateText(event) {
+            document.querySelectorAll(".navbar-brand, .nav-link").forEach(function(text) {
+                text.style.color = event.target.value;
+            });
+        }
+
+        function updateSecondaryTextFirst(event) {
+            var secondaryText = document.querySelector(".productCard");
+
+            if (secondaryText) {
+                secondaryText.style.color = event.target.value;
+            }
+
+        }
+
+        function updateSecondaryText(event) {
+            document.querySelectorAll(".productCard").forEach(function(secondaryText) {
+                secondaryText.style.color = event.target.value;
+            });
+        }
+
+        function updateProductCardFirst(event) {
+            var productCard = document.querySelector(".productCard");
+
+            if (productCard) {
+                productCard.style.backgroundColor = event.target.value;
+            }
+
+        }
+
+        function updateProductCard(event) {
+            document.querySelectorAll(".productCard").forEach(function(productCard) {
+                productCard.style.backgroundColor = event.target.value;
+            });
+        }
+
+        function glowColor1() {
+            document.querySelectorAll(".productCard").forEach(function(productCard) {
+                colorPickerGlow = document.querySelector("#productCardGlowColor1")
+                productCard.style.borderColor = colorPickerGlow.value;
+                productCard.style.boxShadow = `0px 0px 3px ${colorPickerGlow.value}`
+            })
+        }
+
+        function glowColor2() {
+            document.querySelectorAll(".productCard").forEach(function(productCard) {
+                colorPickerGlow = document.querySelector("#productCardGlowColor2")
+                productCard.style.borderColor = colorPickerGlow.value;
+                productCard.style.boxShadow = `0px 0px 3px ${colorPickerGlow.value}`
+            })
+        }
+
+
+    </script>
+
+    <style>
+        .scrolling-wrapper{
+            overflow-x: scroll;
+        }
+    </style>
+
+    <form action="{% url 'flickboutique:previewSiteChanges' %}" method="get" class="container mt-4" enctype="multipart/form-data">
+
+        <div class="scrolling-wrapper row flex-row flex-nowrap">
+                <div class="col-5">
+                    <label for="accentColor" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">Accent color:</label>
+                    <input class="form-control" type="color" name="accentColor" id="accentColor" value="{{ businessInfo.colorScheme.accentColor }}">
+                </div>
+                <div class="col-5">
+                    <label for="backgroundColor" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">Background color:</label>
+                    <input class="form-control" type="color" name="backgroundColor" id="backgroundColor" value="{{ businessInfo.colorScheme.backgroundColor }}">
+                </div>
+                <div class="col-5">
+                    <label for="textColor" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">Change text color:</label>
+                    <input class="form-control" type="color" name="textColor" id="textColor" value="{{ businessInfo.colorScheme.textColor }}">
+                </div>
+            
+                <div class="col-5">
+                    <label for="productCardColor" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">Product card color:</label>
+                    <input class="form-control" type="color" name="productCardColor" id="productCardColor" value="{{ businessInfo.colorScheme.productCardColor }}">
+                </div>
+                <div class="col-5">
+                    <label for="secondaryTextColor" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">Secondary text color:</label>
+                    <input class="form-control" type="color" name="secondaryTextColor" id="secondaryTextColor"  value="{{ businessInfo.colorScheme.secondaryTextColor }}">
+                </div>
+                <div class="col-5">
+                    <label for="productCardGlowColor1" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">Product card glow color 1:</label>
+                    <input class="form-control" type="color" name="productCardGlowColor1" id="productCardGlowColor1" value="{{ businessInfo.colorScheme.productCardGlowColor1 }}">
+                </div>
+                <div class="col-5">
+                    <label for="productCardGlowColor2" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">Product card glow color 2:</label>
+                    <input class="form-control" type="color" name="productCardGlowColor2" id="productCardGlowColor2" value="{{ businessInfo.colorScheme.productCardGlowColor2 }}">
+                </div>
+        </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="productCard card m-2" onmouseover="glowColor1()" onclick="glowColor2()">
+                        <div class="card-header">Product Name</div>
+                        <div class="cardImage"><img class="card-img-top" src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" height="300px" width="300px"></div>
+                        <div class="card-body">Product information.</div>
+                        <div class="card-footer">R11.11</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container my-3"><input type="submit" class="btn btn-primary" value="Preview Changes"></div>
+
+    </form>
+
+    <form action="{% url 'flickboutique:manageSite' %}" method="post" enctype="multipart/form-data" class="container mt-4">
+        {% csrf_token %}
+        <div class="my-3">
+            <label for="changeLogo">Change logo (SVG files recommended):</label>
+            <input class="form-control" type="file" size="60" name="logo">
+        </div>
+
+        <div class="container my-3"><input type="submit" class="btn btn-primary" value="Change Logo"></div>
+    </form>
+
+{% endblock %}
+

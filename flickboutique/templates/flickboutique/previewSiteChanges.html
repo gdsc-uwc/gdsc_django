@@ -1,0 +1,79 @@
+{% extends "flickboutique/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    
+
+    <main>
+
+        {% block nav %}{{ block.super }}{% endblock %}
+
+        <div class="p-5 bg-secondary text-white">
+            <h1>Please confirm your changes</h1>
+            <p>This is what your site will look like now:</p>
+            <form action="{% url 'flickboutique:previewSiteChanges' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="accentColor" value="{{ accentColor }}">
+                <input type="hidden" name="backgroundColor" value="{{ backgroundColor }}">
+                <input type="hidden" name="textColor" value="{{ textColor }}">
+                <input type="hidden" name="secondaryTextColor" value="{{ secondaryTextColor }}">
+                <input type="hidden" name="productCardColor" value="{{ productCardColor }}">
+                <input type="hidden" name="productCardGlowColor1" value="{{ productCardGlowColor1 }}">
+                <input type="hidden" name="productCardGlowColor2" value="{{ productCardGlowColor2 }}">
+                <input type="submit" class="btn btn-primary" value="Save changes">
+            </form>
+        </div>
+
+        <style>
+
+            #businessNav .nav-link, #navbarBrand {
+                color: {{ textColor }};
+            }
+
+            #businessNav {
+                background-color: {{ accentColor }};
+            }
+
+            body {
+                background-color: {{ backgroundColor }};
+            }
+
+            .productCard {
+                background-color: {{ productCardColor }};
+                color: {{ secondaryTextColor }}
+            }
+
+            .productCard:hover {
+                border: 1px solid {{ productCardGlowColor1 }};
+                box-shadow: 0px 0px 3px {{ productCardGlowColor1 }};
+            }
+
+            .productCard:active {
+                border: 1px solid {{ productCardGlowColor2 }};
+                box-shadow: 0px 0px 3px {{ productCardGlowColor2 }};
+            }
+        </style>
+
+
+        <div class="container mt-3">This is where you can manage your business' products and services.</div>
+
+        <div id="feedContainer" class="container my-2">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="productCard card m-2">
+                        <div class="card-header">Product name</div>
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
+                        <div class="card-body">Product information.</div>
+                        <div class="card-footer">R99.99</div>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </main>
+
+{% endblock %}

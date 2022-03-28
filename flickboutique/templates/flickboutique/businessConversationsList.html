@@ -1,0 +1,23 @@
+{% extends "flickboutique/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+
+        {% block nav %}{{ block.super }}{% endblock %}
+        {% block defaultColorScheme %}{{ block.super }}{% endblock %}
+        {% block userColorScheme %}{{ block.super }}{% endblock %}
+
+<div>
+    {% for conversation in conversations %}
+    <div class="p-4 bg-light w-100 border">
+        <a class="text-black" href="{% url 'flickboutique:orderBusinessConversation' business=request.user customer=conversation.customer.username %}">
+            <h3>{{ conversation.customer.first_name }} {{ conversation.customer.last_name }} (@{{ conversation.customer.username }})</h3></h3></h3>
+        </a>
+    </div>
+    {% empty %}
+    <p>There are no conversations to display.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

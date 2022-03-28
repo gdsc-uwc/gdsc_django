@@ -1,0 +1,19 @@
+{% extends "flickboutique/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% block centerStyle %}{{ block.super }}{% endblock %}
+
+    <main class="backgroundMain d-flex align-items-center h-100">
+        <div class="container bg-dark text-center text-white rounded p-5">
+            <h1 id="welcomeBanner" class="">Welcome to FlickBoutique!!!</h1>
+            <div class="container my-4">
+                <h2 class="mb-4">How would you like to continue?</h2>
+                <a href="{% url 'flickboutique:customerLogin' %}" class="btn btn-primary m-2">As a customer</a>
+                <a href="{% url 'flickboutique:businessLogin' %}" class="btn btn-primary m-2">As a business</a>
+            </div>
+        </div>
+    </main>
+    
+{% endblock %}

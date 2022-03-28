@@ -1,0 +1,27 @@
+{% extends "flickboutique/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+
+        {% block nav %}{{ block.super }}{% endblock %}
+        {% block defaultColorScheme %}{{ block.super }}{% endblock %}
+        {% block userColorScheme %}{{ block.super }}{% endblock %}
+
+<div class="m-5">
+    {% for message in conversation.messages.all %}
+    <div class="w-100 text-white">
+        <div class="my-3 {% if request.user.username != message.sender.username %}bg-secondary float-start{% else %}bg-primary float-end{% endif %} p-2 rounded w-75">{{ message }}</div>
+    </div>
+    {% empty %}
+    <p>This is the beginnning of your conversation with <strong>@{{ conversation.customer }}</strong>.</p>
+    {% endfor %}
+    <form action="{% url 'flickboutique:addBusinessMessage' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="customer" value="{{ conversation.customer.username }}">
+        <input class="form-control mb-2" placeholder="Type a message" name="sentMessage">
+        <input class="btn btn-primary" type="submit" value="Send">
+    </form>
+</div>
+
+{% endblock %}

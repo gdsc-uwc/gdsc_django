@@ -1,0 +1,19 @@
+{% extends "flickboutique/layout.html" %}
+
+{% block body %}
+
+    <!-- This displays the (customer) signup form -->
+
+    <main class="backgroundMain d-flex align-items-center h-100 bg-light">
+        <form class="container bg-dark text-center text-white rounded p-5" action="{% url 'flickboutique:customerSignup' %}" method="post">
+            {% csrf_token %} <!-- Cross Site Request Forgery Protection -->
+            <h1 class="text-center">Welcome to FlickBoutique! Tell us who you are!</h1>
+            {{ form }}
+            <input type="submit" class="btn btn-primary" value="Start shopping!">
+            <div class="container-fluid mt-3 mb-4 text-center"><a href="{% url 'flickboutique:businessSignup' %}">Do you own a business? Get your business registered here!</a></div>
+            <div class="container-fluid mt-3 mb-4 text-center"><a href="{% url 'flickboutique:customerLogin' %}">Or are you already registered? Sign in here!</a></div>
+        </form>
+    </main>
+    
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "flickboutique/layout.html" %}
+
+
+{% block body %}
+    {% block nav %}{{ block.super }}{% endblock %}
+    {% block userColorScheme %}{{ block.super }}{% endblock %}
+
+    <div class="container py-5">
+        {% if orders %}
+            <h1>Your orders:</h1>
+            {% for order in orders %}
+                <ul class="container" style="list-style-type: none; padding-left: 0;">
+                    <li class="bg-dark text-white rounded py-3">
+                        <p class="px-3"><strong>@{{ order.buyer }}</strong> bought the following items from you:</p>
+                        {% for item in order.items.all %}
+                            <div class="d-flex py-2">
+                                <img class="rounded mx-3" src="{{ item.item.productImage.url }}" height="100px" width="100px">
+                                <div class="mx-3">
+                                    <h4>{{ item }} (x{{ item.quantity }})</h4>
+                                    <h4>R{{ item.item.productPrice|floatformat:2 }}</h4>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <form class="mx-3" action="{% url 'flickboutique:orderComplete' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="orderBuyer" value="{{ order.buyer }}">
+                            <input type="submit" class="btn btn-success" value="Order complete!">
+                        </form>
+                    </li>
+                </ul>
+                
+            {% endfor %}
+        {% else %}
+            <p>You have no orders to complete.</p>
+            <a class="btn btn-primary" href="{% url 'flickboutique:businessHome' %}">Manage products</a>
+        {% endif %}
+    </div>
+{% endblock %}

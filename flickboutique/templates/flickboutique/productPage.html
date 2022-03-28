@@ -1,0 +1,97 @@
+{% extends 'flickboutique/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+    <!-- The header must look like the business view when the customer visits their profile or product pages -->
+    {% block nav %}{{ block.super }}{% endblock %}
+
+    
+    {% if businessInfo %}
+        {% block userColorScheme %}{{ block.super }}{% endblock %}
+    {% else %}
+        {% block defaultColorScheme %}{{ block.super }}{% endblock %}
+    {% endif %}
+    
+    
+    <!-- Display product information -->
+    
+<div id="productInfoContainer" class="container my-3">
+    <div class="row border rounded mx-2 p-2 bg-light">
+        <div class="col-md-6">
+            <img class="img-responsive my-3 rounded" style="width: 100%;" src="{{ product.productImage.url }}">
+            <h1 id="productName">{{ product.productName }}</h1>
+            <h3 id="productType">{{ product.productDepartment }}</h3>
+            <p id="productInfo">{{ product.productInformation }}</p>
+        </div>
+    
+    
+        <!-- Display price and if there are better -->
+        <div class="col-md-6 pt-2">
+            <h1 id="productPrice">R{{ product.productPrice|floatformat:2 }}</h1>
+            <!-- <h3 id="betterPricesElsewhere">This is the best price for this product.</h3> -->
+            <p>Rating: {{ product.productRating|floatformat:2 }}/5 (out of {{ product.productTotalRatings }} rating{% if product.productTotalRatings > 1 %}s{% elif product.productTotalRatings == 0 %}s{% endif %})</p>
+            {% if request.user != product.soldBy %}
+                <form action="{% url 'flickboutique:addToCart' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="productURL" value="{{ product.productURL }}">
+                    <input type="number" name="buyQuantity" placeholder="Quantity" class="form-control my-2" min="1" required>
+                    <button type="submit" class="btn btn-success">Buy</button>
+                </form>
+            {% endif %}
+            {% if request.user in product.productRaters.all %}
+            <p class="mt-3">You have already rated this product.</p>
+            {% elif request.user == product.soldBy %}
+            <p class="mt-3">You cannot rate this product because you sell this product.</p>
+            {% else %}
+            <form action="{% url 'flickboutique:rateProduct' %}" method="post" class="mb-3">
+                {% csrf_token %}
+                <input type="hidden" name="productName" value="{{ product.productName }}">
+                <input type="number" name="productRating" placeholder="Rate (1-5)" class="form-control my-2" min="1" max="5" required>
+                <input class="btn btn-primary" type="submit" value="Submit Rating">
+            </form>
+            {% endif %}
+        </div>
+        <form method="post" action="{% url 'flickboutique:commentProduct' %}">
+            {% csrf_token %}
+            <input type="hidden" name="commenter" value="{{ request.user.username }}">
+            <input type="hidden" name="product" value="{{ product.productURL }}">
+            <input type="textarea" placeholder="Leave a comment here." class="form-control" name="commentBody">
+            <input type="submit" class="btn btn-primary my-2" value="Comment">
+        </form>
+    </div>
+
+    <!-- User is able to leave a comment -->
+
+    <!-- Product reviews/comments (spoopy o.0)-->
+    <div class="container my-3">
+        <h1>Comments</h1>
+        {% for comment in product.productComments.all %}
+        <div class="container border my-3 p-3 bg-light rounded">
+            <h3>{{ comment.commenter.first_name }} {{ comment.commenter.last_name }}</h3>
+            <p>{{ comment.commentBody }}</p>
+                <form method="post" action="{% url 'flickboutique:replyProductComment' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="replier" value="{{ request.user.username }}">
+                    <input type="hidden" name="comment" value="{{ comment.id }}">
+                    <input type="hidden" name="product" value="{{ product.productURL }}">
+                    <input type="textarea" placeholder="Reply" class="form-control" name="replyBody">
+                    <input type="submit" class="btn btn-primary my-2" value="Submit">
+                </form>
+            {% for reply in comment.replies.all %}
+                <div style="margin-left: 3em" class="border p-3 my-2">
+                    <h3>{% if reply.replier in product.soldBy.all %}🛒{% endif %} {{ reply.replier.first_name }} {{ reply.replier.last_name }}</h3>
+                    <p>{{ reply.replyBody }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        {% empty %}
+        <p>There are no commments to display.</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+    
+
+{% endblock %}
