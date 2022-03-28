@@ -19,6 +19,6 @@ from . import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('server/admin/', admin.site.urls),
     path('', include('flickboutique.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

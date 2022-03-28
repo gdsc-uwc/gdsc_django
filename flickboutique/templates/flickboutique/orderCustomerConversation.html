@@ -19,7 +19,7 @@
     <form action="{% url 'flickboutique:addCustomerMessage' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="business" value="{{ conversation.business.username }}">
-        <input class="form-control mb-2" placeholder="Type a message" name="sentMessage">
+        <input class="form-control mb-2" placeholder="Type a message" name="sentMessage" required>
         <input class="btn btn-primary" type="submit" value="Send">
     </form>
 </div>

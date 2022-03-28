@@ -10,6 +10,10 @@ from . import models
 # Create your views here.
 
 def index(request):
+
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('flickboutique:customerHome'))
+
     return render(request, 'flickboutique/landingPage.html')
 
 
@@ -390,7 +394,8 @@ def manageSite(request):
     
     context = {
         'businessInfo': userBusinessInfo,
-        'userBusinessInfo': userBusinessInfo
+        'userBusinessInfo': userBusinessInfo,
+        'defaultScheme': models.ColorScheme.objects.get(schemeName="bilbaoDefault")
     }
    
     return render(request, 'flickboutique/manageSite.html', context)

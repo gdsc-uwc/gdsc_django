@@ -202,6 +202,7 @@
 
     </form>
 
+    {% if business.colorScheme != defaultScheme %}
     <form action="{% url 'flickboutique:manageSite' %}" method="post" enctype="multipart/form-data" class="container mt-4">
         {% csrf_token %}
         <div class="my-3">
@@ -211,6 +212,7 @@
 
         <div class="container my-3"><input type="submit" class="btn btn-primary" value="Change Logo"></div>
     </form>
+    {% endif %}
 
 {% endblock %}
 

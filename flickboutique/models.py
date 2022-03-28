@@ -65,12 +65,6 @@ class ProductDepartment(models.Model):
     def __str__(self):
         return self.departmentName
 
-class Manufacturer(models.Model):
-    manufacturerName = models.CharField(max_length=128)
-
-    def __str__(self):
-        return self.manufacturerName
-
 class ProductCommentReply(models.Model):
     replier = models.ForeignKey(User, related_name="comment_replier", on_delete=models.CASCADE, null=True)
     replyBody = models.TextField(null=True, blank=True)

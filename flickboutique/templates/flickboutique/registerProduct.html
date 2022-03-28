@@ -11,8 +11,8 @@
 
         {% block centerStyle %}{{ block.super }}{% endblock %}
 
-        <main class="d-flex align-items-center bg-light h-100">
-            <form class="container" action="{% url 'flickboutique:registerProduct' %}" method="post" enctype="multipart/form-data">
+        <main class="backgroundMain d-flex align-items-center h-100 bg-light">
+            <form class="container bg-dark text-center text-white rounded p-5" action="{% url 'flickboutique:registerProduct' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %} <!-- Cross Site Request Forgery Protection -->
                 {{ form }}
                 <input class="btn btn-primary" type="submit" value="Register">

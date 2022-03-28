@@ -56,7 +56,7 @@
             {% csrf_token %}
             <input type="hidden" name="commenter" value="{{ request.user.username }}">
             <input type="hidden" name="product" value="{{ product.productURL }}">
-            <input type="textarea" placeholder="Leave a comment here." class="form-control" name="commentBody">
+            <input type="textarea" placeholder="Leave a comment here." class="form-control" name="commentBody" required>
             <input type="submit" class="btn btn-primary my-2" value="Comment">
         </form>
     </div>
@@ -75,7 +75,7 @@
                     <input type="hidden" name="replier" value="{{ request.user.username }}">
                     <input type="hidden" name="comment" value="{{ comment.id }}">
                     <input type="hidden" name="product" value="{{ product.productURL }}">
-                    <input type="textarea" placeholder="Reply" class="form-control" name="replyBody">
+                    <input type="textarea" placeholder="Reply" class="form-control" name="replyBody" required>
                     <input type="submit" class="btn btn-primary my-2" value="Submit">
                 </form>
             {% for reply in comment.replies.all %}
