@@ -40,7 +40,7 @@ CSRF_TRUSTED_ORIGINS = ['https://billbao.app']
 
 CORS_REPLACE_HTTPS_REFERER = True
 
-CSRF_COOKIE_DOMAIN = 'bluemix.net'
+CSRF_COOKIE_DOMAIN = 'billbao.app'
 
 CORS_ORIGIN_WHITELIST = (
     'https://billbao.app',
