@@ -8,7 +8,7 @@
         </div>
     {% endif %}
 
-    <!-- This displays the (customer) signup form -->
+    <!-- This displays the business signup form -->
 
     <main class="backgroundMain d-flex align-items-center h-100">
         <form class="container bg-dark text-center text-white rounded p-5" action="{% url 'flickboutique:businessSignup' %}" method="post" oninput='confirmPassword.setCustomValidity(confirmPassword.value != password.value ? "Passwords do not match." : "")'>

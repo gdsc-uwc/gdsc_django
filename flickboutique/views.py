@@ -131,7 +131,7 @@ def businessSignup(request):
                         'error': "A user with that username already exists."
                     }
 
-                    return render(request, 'flickboutique/businessSignup.html', context)
+                    return render(request, 'flickboutique/businessSignUp.html', context)
 
 
             else:
@@ -140,13 +140,13 @@ def businessSignup(request):
                     'error': "Something went wrong."
                 }
 
-                return render(request, 'flickboutique/businessSignup.html', context)
+                return render(request, 'flickboutique/businessSignUp.html', context)
 
     context = {
         'form' : form,
     }
 
-    return render(request, 'flickboutique/businessSignup.html', context)
+    return render(request, 'flickboutique/businessSignUp.html', context)
 
 
 def customerLogin(request):
