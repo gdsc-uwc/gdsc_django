@@ -117,9 +117,9 @@ def businessSignup(request):
                     user = User.objects.create_user(first_name=businessName, username=userName, email=email, password=password)
                     user.save()
 
-                    parsed_number = phonenumbers.parse(phoneNumber, country)
+                    parsed_number = phonenumbers.parse(contactNumber, country)
 
-                    phoneNumber = phonenumbers.format_number(parsed_number,phonenumbers.PhoneNumberFormat.E164)
+                    contactNumber = phonenumbers.format_number(parsed_number,phonenumbers.PhoneNumberFormat.E164)
                     # Other information saved to database
                     userInfo = models.BusinessInfo(user=user, streetAddress=streetAddress, city=city, country=country, suburb=suburb, postalCode=postalCode, phoneNumber=contactNumber)
                     userInfo.save()
