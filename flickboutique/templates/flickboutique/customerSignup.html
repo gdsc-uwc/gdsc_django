@@ -1,11 +1,16 @@
 {% extends "flickboutique/layout.html" %}
 
 {% block body %}
+    {% if error %}
+        <div class="bg-danger text-white p-3 fixed-top">
+            <h1>{{ error }}</h1>
+        </div>
+    {% endif %}
 
     <!-- This displays the (customer) signup form -->
 
-    <main class="backgroundMain d-flex align-items-center h-100 bg-light">
-        <form class="container bg-dark text-center text-white rounded p-5" action="{% url 'flickboutique:customerSignup' %}" method="post">
+    <main class="backgroundMain d-flex align-items-center h-100">
+        <form class="container bg-dark text-center text-white rounded p-5" action="{% url 'flickboutique:customerSignup' %}" method="post"  oninput='confirmPassword.setCustomValidity(confirmPassword.value != password.value ? "Passwords do not match." : "")'>
             {% csrf_token %} <!-- Cross Site Request Forgery Protection -->
             <h1 class="text-center">Welcome to Billbao!</h1>
             {{ form }}

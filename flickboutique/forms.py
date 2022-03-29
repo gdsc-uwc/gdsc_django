@@ -3,10 +3,6 @@ from django_countries.fields import CountryField # Library for countries
 from phonenumber_field.formfields import PhoneNumberField # Library for phone numbers
 from . import models
 
-# Comments in classes mean that a package needs to be installed to create a field for that class
-
-# Note: The Manage Site Form is not included here.
-
 # Customer sign up form
 
 class CustomerSignupForm(forms.Form):
@@ -21,7 +17,7 @@ class CustomerSignupForm(forms.Form):
     suburb = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Suburb'}), label='Suburb', max_length=64)
     postalCode = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Postal Code'}), label='Postal Code')
     country = CountryField().formfield(widget=forms.Select(attrs={'class': 'form-control mb-3', 'placeholder': 'Country'}), label='Country')
-    phoneNumber = PhoneNumberField(widget=forms.NumberInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Phone Number (e.g. +XX 12 345 6789)'}), max_length=20, label='Phone Number')
+    phoneNumber = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'form-control mb-3', 'placeholder': 'Phone Number (e.g. +XX 12 345 6789)'}), max_length=20, label='Phone Number')
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Password'}), label='Password', max_length=16)
     confirmPassword = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Confirm Password'}), label='Confirm Password', max_length=16)
 
@@ -37,7 +33,7 @@ class BusinessSignupForm(forms.Form):
     suburb = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Suburb'}), label='Suburb', max_length=64)
     postalCode = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Postal Code'}), label='Postal Code')
     country = CountryField().formfield(widget=forms.Select(attrs={'class': 'form-control mb-3', 'placeholder': 'Country'}), label='Country')
-    contactNumber = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Contact Number (e.g. +XX 12 345 6789)'}), label='Contact Number', max_length=20)
+    contactNumber = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'form-control mb-3', 'placeholder': 'Contact Number (e.g. +XX 12 345 6789)'}), label='Contact Number', max_length=20)
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Password'}), label='Password', max_length=16)
     confirmPassword = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Confirm Password'}), label='Confirm Password', max_length=16)
 

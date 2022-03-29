@@ -2,14 +2,20 @@
 
 {% block body %}
 
+    {% if error %}
+        <div class="bg-danger text-white p-3 fixed-top">
+            <h1>{{ error }}</h1>
+        </div>
+    {% endif %}
+
     <!-- This displays the (customer) signup form -->
 
-    <main class="backgroundMain d-flex align-items-center h-100 bg-light">
-        <form class="container bg-dark text-center text-white rounded p-5" action="{% url 'flickboutique:businessSignup' %}" method="post">
+    <main class="backgroundMain d-flex align-items-center h-100">
+        <form class="container bg-dark text-center text-white rounded p-5" action="{% url 'flickboutique:businessSignup' %}" method="post" oninput='confirmPassword.setCustomValidity(confirmPassword.value != password.value ? "Passwords do not match." : "")'>
             {% csrf_token %} <!-- Cross Site Request Forgery Protection -->
             <h1 class="text-center">Welcome to Billbao!</h1>
             {{ form }}
-            <input type="submit" class="btn btn-primary" value="Start shopping!">
+            <input type="submit" class="btn btn-primary" value="Start selling!">
             <div class="container-fluid mt-3 mb-4 text-center"><a href="{% url 'flickboutique:customerSignup' %}">Wish to sign up as a customer? Sign up here!</a></div>
             <div class="container-fluid mt-3 mb-4 text-center"><a href="{% url 'flickboutique:businessLogin' %}">Is your business already registered? Check back in here!</a></div>
         </form>

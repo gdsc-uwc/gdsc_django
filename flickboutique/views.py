@@ -1,7 +1,9 @@
 from re import T
+from django.db import IntegrityError
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+import phonenumbers
 from . import forms
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -43,14 +45,34 @@ def customerSignup(request):
 
             if (password == confirmPassword):
                 # User authentication creation
-                user = User.objects.create_user(first_name=firstName, last_name=lastName, username=userName, email=email, password=password)
-                user.save()
+                try:
+                    parsed_number = phonenumbers.parse(phoneNumber, country)
 
-                # Other information saved to database
-                userInfo = models.CustomerInfo(user=user, streetAddress=streetAddress, birthday=birthday, city=city, country=country, suburb=suburb, postalCode=postalCode, phoneNumber=phoneNumber)
-                userInfo.save()
+                    phoneNumber = phonenumbers.format_number(parsed_number,phonenumbers.PhoneNumberFormat.E164)
 
-                return HttpResponseRedirect(reverse('flickboutique:customerSignupSuccess'))
+                    user = User.objects.create_user(first_name=firstName, last_name=lastName, username=userName, email=email, password=password)
+                    user.save()
+
+                    # Other information saved to database
+                    userInfo = models.CustomerInfo(user=user, streetAddress=streetAddress, birthday=birthday, city=city, country=country, suburb=suburb, postalCode=postalCode, phoneNumber=phoneNumber)
+                    userInfo.save()
+
+                    return HttpResponseRedirect(reverse('flickboutique:customerSignupSuccess'))
+                except IntegrityError:
+                    context = {
+                        'form' : submittedForm,
+                        'error': "A user with that username already exists.",
+                    }
+
+                    return render(request, 'flickboutique/businessSignup.html', context)
+
+            else:
+                context = {
+                    'form' : submittedForm,
+                    'error': "Something went wrong."
+                }
+
+                return render(request, 'flickboutique/businessSignup.html', context)
 
     context = {
         'form' : form,
@@ -91,14 +113,34 @@ def businessSignup(request):
 
             if (password == confirmPassword):
                 # User authentication creation
-                user = User.objects.create_user(first_name=businessName, username=userName, email=email, password=password)
-                user.save()
+                try:
+                    user = User.objects.create_user(first_name=businessName, username=userName, email=email, password=password)
+                    user.save()
 
-                # Other information saved to database
-                userInfo = models.BusinessInfo(user=user, streetAddress=streetAddress, city=city, country=country, suburb=suburb, postalCode=postalCode, phoneNumber=contactNumber)
-                userInfo.save()
+                    parsed_number = phonenumbers.parse(phoneNumber, country)
 
-                return HttpResponseRedirect(reverse('flickboutique:businessSignupSuccess'))
+                    phoneNumber = phonenumbers.format_number(parsed_number,phonenumbers.PhoneNumberFormat.E164)
+                    # Other information saved to database
+                    userInfo = models.BusinessInfo(user=user, streetAddress=streetAddress, city=city, country=country, suburb=suburb, postalCode=postalCode, phoneNumber=contactNumber)
+                    userInfo.save()
+
+                    return HttpResponseRedirect(reverse('flickboutique:businessSignupSuccess'))
+                except IntegrityError:
+                    context = {
+                        'form' : submittedForm,
+                        'error': "A user with that username already exists."
+                    }
+
+                    return render(request, 'flickboutique/businessSignup.html', context)
+
+
+            else:
+                context = {
+                    'form' : submittedForm,
+                    'error': "Something went wrong."
+                }
+
+                return render(request, 'flickboutique/businessSignup.html', context)
 
     context = {
         'form' : form,
@@ -128,7 +170,7 @@ def customerLogin(request):
             else:
                 return render(request, 'flickboutique/customerLogin.html', {
                     'form' : form,
-                    'error' : "User does not exist.",
+                    'error' : "Your username or password is incorrect.",
                 })
     
     return render(request, 'flickboutique/customerLogin.html', {
@@ -158,7 +200,7 @@ def businessLogin(request):
             else:
                 return render(request, 'flickboutique/businessLogin.html', {
                     'form' : form,
-                    'error' : "User does not exist.",
+                    'error' : "Your username or password is incorrect.",
                 })
 
     context = {
