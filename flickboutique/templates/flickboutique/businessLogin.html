@@ -12,7 +12,7 @@
 
     {% block centerStyle %}{{ block.super }}{% endblock %}
 
-    <main class="backgroundMain d-flex align-items-center h-100 bg-light">
+    <main class="backgroundMain d-flex align-items-center h-100">
         <form class="container bg-dark text-center text-white rounded p-5" action="{% url 'flickboutique:businessLogin' %}" method="post">
             {% csrf_token %} <!-- Cross Site Request Forgery Protection -->
             <h1 class="text-center">Welcome back! It's always a pleasure doing business with you.</h1>

@@ -7,7 +7,7 @@
     {% block userColorScheme %}{{ block.super }}{% endblock %}
 
     <main>
-        <div class="text-center p-5 text-white" style="background-image: url('{{ businessInfo.profileBanner.url }}'); background-position: bottom; background-attachment: fixed;">
+        <div class="text-center p-5 text-white" style="background-image: url('{{ businessInfo.profileBanner.url }}'); background-position: bottom; background-attachment: fixed; text-shadow: 1px 1px 2px #000000;">
             <h1>Edit your business profile!</h1>
             <div class="pt-4">
                 <form enctype="multipart/form-data" action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
