@@ -153,7 +153,7 @@
         }
     </style>
     <!-- Color scheme change form -->
-    <form action="{% url 'flickboutique:previewSiteChanges' %}" method="get" class="container mt-4" enctype="multipart/form-data">
+    <form action="{% url 'flickboutique:previewSiteChanges' %}" method="get" class="container m-4" enctype="multipart/form-data">
 
         <div class="scrolling-wrapper row flex-row flex-nowrap">
                 <div class="col-5">
@@ -204,15 +204,21 @@
 
     </form>
     <!-- Change logo -->
-    {% if business.colorScheme != defaultScheme %}
+    {% if businessInfo.colorScheme != defaultScheme %}
     <form action="{% url 'flickboutique:manageSite' %}" method="post" enctype="multipart/form-data" class="container mt-4">
         {% csrf_token %}
         <div class="my-3">
             <label for="changeLogo">Change logo (SVG files recommended):</label>
-            <input class="form-control" type="file" size="60" name="logo">
+            <input class="form-control" type="file" size="60" name="logo" required>
         </div>
 
-        <div class="container my-3"><input type="submit" class="btn btn-primary" value="Change Logo"></div>
+        <div class="container my-3"><input type="submit" class="btn btn-primary" value="Change Logo" name="logoChange"></div>
+    </form>
+    <form action="{% url 'flickboutique:manageSite' %}" method="post" class="container mt-4">
+        {% csrf_token %}
+        <label for="changeFont">Change font (the font must exist on Google Fonts, you can browse them <a href="https://fonts.google.com" target="_blank">here</a>):</label>
+        <input class="form-control" type="text" name="font" placeholder="Type in the name of the font you want to use" required>
+        <input type="submit" value="Change font" class="btn btn-primary" name="fontChange">
     </form>
     {% endif %}
 

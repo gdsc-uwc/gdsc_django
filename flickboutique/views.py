@@ -50,16 +50,6 @@ def customerSignup(request):
 
                     phoneNumber = phonenumbers.format_number(parsed_number,phonenumbers.PhoneNumberFormat.E164)
 
-                    # Saves user information to database
-                    user = User.objects.create_user(first_name=firstName, last_name=lastName, username=userName, email=email, password=password)
-                    user.save()
-
-                    # Other information saved to database
-                    userInfo = models.CustomerInfo(user=user, streetAddress=streetAddress, birthday=birthday, city=city, country=country, suburb=suburb, postalCode=postalCode, phoneNumber=phoneNumber)
-                    userInfo.save()
-
-                    return HttpResponseRedirect(reverse('flickboutique:customerSignupSuccess'))
-
                 except IntegrityError: # User already exists
                     context = {
                         'form' : submittedForm,
@@ -67,6 +57,15 @@ def customerSignup(request):
                     }
 
                     return render(request, 'flickboutique/businessSignup.html', context)
+                # Saves user information to database
+                user = User.objects.create_user(first_name=firstName, last_name=lastName, username=userName, email=email, password=password)
+                user.save()
+
+                # Other information saved to database
+                userInfo = models.CustomerInfo(user=user, streetAddress=streetAddress, birthday=birthday, city=city, country=country, suburb=suburb, postalCode=postalCode, phoneNumber=phoneNumber)
+                userInfo.save()
+
+                return HttpResponseRedirect(reverse('flickboutique:customerSignupSuccess'))
 
             else:
                 context = {
@@ -120,14 +119,6 @@ def businessSignup(request):
                     user = User.objects.create_user(first_name=businessName, username=userName, email=email, password=password)
                     user.save()
 
-                    parsed_number = phonenumbers.parse(contactNumber, country)
-
-                    contactNumber = phonenumbers.format_number(parsed_number,phonenumbers.PhoneNumberFormat.E164)
-                    # Other information saved to database
-                    userInfo = models.BusinessInfo(user=user, streetAddress=streetAddress, city=city, country=country, suburb=suburb, postalCode=postalCode, phoneNumber=contactNumber)
-                    userInfo.save()
-
-                    return HttpResponseRedirect(reverse('flickboutique:businessSignupSuccess'))
                 except IntegrityError:
                     context = {
                         'form' : submittedForm,
@@ -136,6 +127,15 @@ def businessSignup(request):
 
                     return render(request, 'flickboutique/businessSignUp.html', context)
 
+
+                parsed_number = phonenumbers.parse(contactNumber, country)
+
+                contactNumber = phonenumbers.format_number(parsed_number,phonenumbers.PhoneNumberFormat.E164)
+                # Other information saved to database
+                userInfo = models.BusinessInfo(user=user, streetAddress=streetAddress, city=city, country=country, suburb=suburb, postalCode=postalCode, phoneNumber=contactNumber)
+                userInfo.save()
+
+                return HttpResponseRedirect(reverse('flickboutique:businessSignupSuccess'))
 
             else:
                 context = {
@@ -433,10 +433,20 @@ def manageSite(request):
     userBusinessInfo = models.BusinessInfo.objects.get(user=request.user)
 
     if request.method == 'POST':
-        logo = request.FILES['logo']
-        userinfo = models.BusinessInfo.objects.get(user=User.objects.get(username=request.user.username))
-        userinfo.colorScheme.logo = logo
-        userinfo.colorScheme.save()
+        if request.POST.get('logoChange'):
+            logo = request.FILES['logo']
+            userinfo = models.BusinessInfo.objects.get(user=User.objects.get(username=request.user.username))
+            userinfo.colorScheme.logo = logo
+            userinfo.colorScheme.save()
+        if request.POST.get('fontChange'):
+            fontName = request.POST['font']
+            font = fontName.replace(' ', '+')
+
+            userinfo = models.BusinessInfo.objects.get(user=User.objects.get(username=request.user.username))
+            userinfo.colorScheme.font = font
+            userinfo.colorScheme.fontName = fontName
+            userinfo.colorScheme.save()
+
 
         return HttpResponseRedirect(reverse('flickboutique:businessHome'))
 

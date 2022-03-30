@@ -16,6 +16,8 @@ class ColorScheme(models.Model):
     productCardGlowColor1 = models.CharField(max_length=20, default="orange")
     productCardGlowColor2 = models.CharField(max_length=20, default="lightblue")
     logo = models.ImageField(default="billbao_logo.png")
+    font = models.CharField(max_length=64, default="Raleway")
+    fontName = models.CharField(max_length=64, default="Raleway")
 
     def __str__(self):
         return self.schemeName
