@@ -1,10 +1,15 @@
+from django.urls import re_path
 from django.urls import path
 from . import views
+from django.views.static import serve
+from django.conf import settings
 
 app_name = 'flickboutique'
 
 urlpatterns = [
     # Template-less URLs
+    re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+    re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
     path("delete-product", views.deleteProduct, name="deleteProduct"),
     path("user-logout", views.userLogout, name="userLogout"),
     path("rate-product", views.rateProduct, name="rateProduct"),
