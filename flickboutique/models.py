@@ -54,7 +54,7 @@ class BusinessInfo(models.Model):
     phoneNumber = PhoneNumberField()
     # Other information
     bio = models.CharField(max_length=1024)
-    colorScheme = models.ForeignKey(ColorScheme, on_delete=models.CASCADE, related_name="business_color_scheme", default=ColorScheme.objects.get(schemeName="bilbaoDefault").pk)
+    colorScheme = models.ForeignKey(ColorScheme, on_delete=models.CASCADE, related_name="business_color_scheme")#, default=ColorScheme.objects.get(schemeName="bilbaoDefault").pk)
     profilePicture = models.ImageField(default="noPP.svg")
     profileBanner = models.ImageField(default="nobanner.png")
     rating = models.FloatField(default=0)
