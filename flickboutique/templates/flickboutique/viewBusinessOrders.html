@@ -6,7 +6,7 @@
     {% block userColorScheme %}{{ block.super }}{% endblock %}
 
     <div class="container py-5">
-        {% if orders %}
+        {% if orders %} <!-- Shows list of orders if any exist -->
             <h1>Your orders:</h1>
             {% for order in orders %}
                 <ul class="container" style="list-style-type: none; padding-left: 0;">

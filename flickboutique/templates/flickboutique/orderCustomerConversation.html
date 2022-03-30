@@ -9,6 +9,7 @@
 {% block userColorScheme %}{{ block.super }}{% endblock %}
 
 <div class="m-5">
+    <!-- Displays all messages from a particular conversation -->
     {% for message in conversation.messages.all %}
     <div class="w-100 text-white">
         <div class="my-3 {% if request.user.username != message.sender.username %}bg-secondary float-start{% else %}bg-primary float-end{% endif %} p-2 rounded w-75">{{ message }}</div>

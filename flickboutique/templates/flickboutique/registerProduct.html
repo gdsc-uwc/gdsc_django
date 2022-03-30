@@ -10,7 +10,7 @@
         {% endif %}
 
         {% block centerStyle %}{{ block.super }}{% endblock %}
-
+        <!-- This diaplays the product registration form -->
         <main class="backgroundMain d-flex align-items-center h-100">
             <form class="container bg-dark text-center text-white rounded p-5" action="{% url 'flickboutique:registerProduct' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %} <!-- Cross Site Request Forgery Protection -->

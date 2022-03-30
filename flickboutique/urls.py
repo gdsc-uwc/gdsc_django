@@ -26,10 +26,10 @@ urlpatterns = [
     path("business-signup", views.businessSignup, name="businessSignup"),
     path("customer-login", views.customerLogin, name="customerLogin"),
     path("business-login", views.businessLogin, name="businessLogin"),
-    path("customer-home", views.customerHome, name="customerHome"), # This should later be the index if the user is a customer
-    path("business-home", views.businessHome, name="businessHome"), # This should later be the index if the user is a business
+    path("customer-home", views.customerHome, name="customerHome"), # Index if the user is a customer
+    path("business-home", views.businessHome, name="businessHome"), # Index if the user is a business
     path("manage-site", views.manageSite, name="manageSite"),
-    path("product-page/<str:productURL>/", views.productPage, name="productPage"), # Business username should later be added
+    path("product-page/<str:productURL>/", views.productPage, name="productPage"),
     path("register-product", views.registerProduct, name="registerProduct"),
     path("preview-changes", views.previewSiteChanges, name="previewSiteChanges"),
     path("edit/<str:username>", views.editBusinessProfilePage, name="editBusinessProfilePage"),
@@ -42,6 +42,7 @@ urlpatterns = [
     path("<str:business>/messages/<str:customer>", views.orderBusinessConversation, name="orderBusinessConversation"),
     path("conversations-list", views.customerConversationsList, name="customerConversationsList"),
     path("<str:business>/conversations-list", views.businessConversationsList, name="businessConversationsList"),
+    path("successful-payment", views.successfulPayment, name="successfulPayment"),
 
     path("<str:username>", views.businessView, name="businessView"),
 ]

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-
+    <!-- Custom navigation -->
     {% block nav %}{{ block.super }}{% endblock %}
     {% block userColorScheme %}{{ block.super }}{% endblock %}
 
@@ -10,14 +10,17 @@
         <div class="text-center p-5 text-white" style="background-image: url('{{ businessInfo.profileBanner.url }}'); background-position: bottom; background-attachment: fixed; text-shadow: 1px 1px 2px #000000;">
             <h1>Edit your business profile!</h1>
             <div class="pt-4">
+                <!-- Edit business information -->
                 <form enctype="multipart/form-data" action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
                     {% csrf_token %}
+                    <!-- Edit profile picture -->
                     <input type="hidden" name="user" value="{{ request.user.username }}">
                     <div class="m-3">
                         <img src="{% if userBusinessInfo.profilePicture %}{{ userBusinessInfo.profilePicture.url }}{% else %}https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png{% endif %}" alt="" class="rounded-circle m-3" width="200px" height="200px">
                         <label for="editProfilePicture">Change profile picture: <input name="editProfilePicture" type="file" class="form-control" required></label>
                         <input type="submit" name="changeProfilePicture" class="btn btn-primary m-3" value="Change picture">
                     </form>
+                    <!-- Edit business banner -->
                     <form enctype="multipart/form-data" action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
                         {% csrf_token %}
                         <label for="editProfileBanner">Change profile banner: <input name="editProfileBanner" type="file" class="form-control" required></label>
@@ -27,12 +30,14 @@
                 
                 <form action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
                     {% csrf_token %}
+                    <!-- Edit business name -->
                     <input type="hidden" name="user" value="{{ request.user.username }}">
                     <label for="editBusinessName">Business Name:</label>
                     <input name="editBusinessName" type="textarea" class="form-control" placeholder="{{ request.user.first_name }}" required>
                     <input type="submit" name="changeBusinessName" class="btn btn-primary m-3" value="Submit">
                 </form>
                 <form action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
+                    <!-- Edit username -->
                     {% csrf_token %}
                     <input type="hidden" name="user" value="{{ request.user.username }}">
                     <label for="editUsername">Username:</label>
@@ -40,6 +45,7 @@
                     <input type="submit" name="changeUsername" class="btn btn-primary m-3" value="Submit">
                 </form>
                 <form action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
+                    <!-- Edit business bio -->
                     {% csrf_token %}
                     <input type="hidden" name="user" value="{{ request.user.username }}">
                     <label for="editBio">Bio:</label>
@@ -50,6 +56,7 @@
         </div>
         <form class="p-5" action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
             {% csrf_token %}
+            <!-- Edit business address -->
             <h2>Change Address:</h2>
             <input type="hidden" name="user" value="{{ request.user.username }}">
             <input type="text" class="form-control mb-3" name="editStreetAddress" placeholder="{{ businessInfo.streetAddress }}" required>

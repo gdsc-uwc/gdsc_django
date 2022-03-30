@@ -49,6 +49,8 @@ class BusinessLoginForm(forms.Form):
     userName = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Business Username'}), label='Business Username', max_length=64)
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Password'}), label='Password', max_length=64)
 
+
+# Product registration form
 class ProductRegistrationForm(forms.Form):
     productName = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Product Name'}), label='Product Name', max_length=64)
     productDepartment = forms.IntegerField(widget=forms.Select(attrs={'class': 'form-control mb-3', 'placeholder': 'Product Name'}, choices=models.ProductDepartment.objects.all().values_list('id', 'departmentName')), label='Product Department')

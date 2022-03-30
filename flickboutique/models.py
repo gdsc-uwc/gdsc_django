@@ -5,6 +5,7 @@ from django.contrib.auth.models import User # User field model
 
 # Create your models here.
 
+# Color scheme model
 class ColorScheme(models.Model):
     schemeName = models.CharField(max_length=128)
     accentColor = models.CharField(max_length=20, default="#000000")
@@ -19,6 +20,8 @@ class ColorScheme(models.Model):
     def __str__(self):
         return self.schemeName
 
+
+# Customer information model
 class CustomerInfo(models.Model):
     # Signup form information
     # First name, last name, email, password are in user auth
@@ -36,6 +39,7 @@ class CustomerInfo(models.Model):
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name} ({self.user.username}) - {self.suburb}, {self.city}"
 
+# Businesss information model
 class BusinessInfo(models.Model):
     # Signup form information
     # First name is business name and is with email, password in user auth
@@ -59,22 +63,29 @@ class BusinessInfo(models.Model):
     def __str__(self):
         return f"{self.user.first_name} ({self.user.username}), {self.city}"
 
+
+# Product department model
 class ProductDepartment(models.Model):
     departmentName = models.CharField(max_length=128)
 
     def __str__(self):
         return self.departmentName
 
+
+# Product comment reply model
 class ProductCommentReply(models.Model):
     replier = models.ForeignKey(User, related_name="comment_replier", on_delete=models.CASCADE, null=True)
     replyBody = models.TextField(null=True, blank=True)
 
+
+# Product comment model
 class ProductComment(models.Model):
     commenter = models.ForeignKey(User, related_name="product_commenter", on_delete=models.CASCADE)
     commentBody = models.TextField(null=True, blank=True)
     replies = models.ManyToManyField(ProductCommentReply, related_name="product_replies")
 
 
+# Product model
 class Product(models.Model):
     productName = models.CharField(max_length=128)
     productURL = models.CharField(max_length=64)
@@ -92,6 +103,8 @@ class Product(models.Model):
     def __str__(self):
         return self.productName
 
+
+# Cart item model
 class CartItem(models.Model):
     
     item = models.ForeignKey(Product, related_name="cart_item", on_delete=models.CASCADE)
@@ -100,15 +113,21 @@ class CartItem(models.Model):
     def __str__(self):
         return self.item.productName
 
+
+# Customer shopping cart
 class CustomerShoppingCart(models.Model):
     buyer = models.ForeignKey(User, related_name="buyer", on_delete=models.CASCADE)
     items = models.ManyToManyField(CartItem, related_name="shopping_cart_items")
 
+
+# Order model
 class Order(models.Model):
     buyer = models.ForeignKey(User, related_name="order_maker", on_delete=models.CASCADE)
     business = models.ForeignKey(User, related_name="order_checker", on_delete=models.CASCADE)
     items = models.ManyToManyField(CartItem, related_name="ordered_items")
 
+
+# Message model
 class Message(models.Model):
     sender = models.ForeignKey(User, related_name="message_sender", on_delete=models.CASCADE)
     body = models.TextField()
@@ -116,6 +135,8 @@ class Message(models.Model):
     def __str__(self):
         return self.body
 
+
+# Conversation model
 class Conversation(models.Model):
     messages = models.ManyToManyField(Message, related_name="conversation_messages")
     business = models.ForeignKey(User, related_name="business_message", on_delete=models.CASCADE)

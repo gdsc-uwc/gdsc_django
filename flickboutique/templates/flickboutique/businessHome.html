@@ -4,13 +4,14 @@
 {% block body %}
 
     <main>
-
+        
+        <!-- Only displays when user has started a new session, counter variable is used -->
         {% if pageVisits == 1 %}
         <div class="p-5 bg-info text-white">
             <h1>Welcome {% if request.user.last_login %}back{% endif %}{% if request.user.username %}, {{ request.user.first_name }}{% endif %}!</h1>
         </div>
         {% endif %}
-
+        <!-- Custom navigation bar -->
         {% block nav %}{{ block.super }}{% endblock %}
 
         {% block userColorScheme %}{{ block.super }}{% endblock %}
@@ -20,6 +21,7 @@
         <div id="feedContainer" class="container my-5">
 
             <div class="row">
+                <!-- Lists all products -->
                 {% for product in products %}
                 <div class="col-md-3">
                     <a class="productCard card m-2" href="{% url 'flickboutique:productPage' productURL=product.productURL %}">

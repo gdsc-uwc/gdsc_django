@@ -6,10 +6,13 @@
     {% block defaultColorScheme %}{{ block.super }}{% endblock %}
     {% block userColorScheme %}{{ block.super }}{% endblock %}
     <div class="container py-5">
+        <!-- If the shopping cart is not empty or has been initialised -->
         {% if cart %}
+            <!-- If cart is not empty -->
             {% if cart.items.all|length > 0 %}
                 <h1>Your items:</h1>
             {% endif %}
+            <!-- Displays all cart items -->
             {% for item in cart.items.all %}
                 <ul class="container" style="list-style-type: none; padding-left: 0;">
                     <li class="bg-dark text-white rounded py-3">
@@ -29,15 +32,18 @@
                     </li>
                 </ul>
             {% empty %}
+            <!-- Shopping cart is empty -->
                 <p>Your shopping cart is empty.</p>
                 <a class="btn btn-primary" href="{% url 'flickboutique:customerHome' %}">Buy Now!</a>
             {% endfor %}
+            <!-- Allow user to check out if cart is not empty -->
             {% if cart.items.all|length > 0 %}
                 <a class="btn btn-primary" href="{% url 'flickboutique:paymentsProcessing' %}">Checkout</a>
                 <a class="btn btn-primary" href="{% url 'flickboutique:customerHome' %}">Buy More</a>
                 <h2 class="my-3">Total: R{{ totalPrice|floatformat:2 }}</h2>
             {% endif %}
         {% else %}
+        <!-- Display an empty shopping cart if cart has not been initialised -->
             <p>Your shopping cart is empty.</p>
             <a class="btn btn-primary" href="{% url 'flickboutique:customerHome' %}">Buy Now!</a>
         {% endif %}

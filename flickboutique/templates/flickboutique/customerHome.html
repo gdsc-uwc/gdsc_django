@@ -4,13 +4,14 @@
 {% block body %}
 
     <main>
-
+        <!-- Only displays when user has started a new session, counter variable is used -->
         {% if pageVisits == 1 %}
         <div class="p-5 bg-info text-white">
             <h1>Welcome, {{ request.user.first_name }}!</h1>
         </div>
         {% endif %}
 
+        <!-- Custom navigation -->
         {% block nav %}{{ block.super }}{% endblock %}
         {% block defaultColorScheme %}{{ block.super }}{% endblock %}
         {% block userColorScheme %}{{ block.super }}{% endblock %}
@@ -18,6 +19,7 @@
         <div id="feedContainer" class="container my-5">
 
             <div class="row">
+                <!-- Display all businesses actively selling -->
                 {% for business in businesses %}
                 <div class="col-md-6">
                     <a style="text-shadow: 1px 1px 2px #000000;" class="productCard card m-2 rounded" href="{% url 'flickboutique:businessView' username=business.user.username %}">
@@ -30,7 +32,7 @@
                     </a>
                 </div>
                 {% empty %}
-                <h1 class="container">There's no one here...</h1>
+                <h1 class="container">There's no one here.</h1>
                 {% endfor %}
             </div>
 

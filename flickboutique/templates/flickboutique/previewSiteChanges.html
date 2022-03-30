@@ -12,6 +12,7 @@
         <div class="p-5 bg-secondary text-white">
             <h1>Please confirm your changes</h1>
             <p>This is what your site will look like now:</p>
+            <!-- Changes from previous page are stored as inputs -->
             <form action="{% url 'flickboutique:previewSiteChanges' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="accentColor" value="{{ accentColor }}">
@@ -25,6 +26,7 @@
             </form>
         </div>
 
+        <!-- Loads custom CSS styling from request -->
         <style>
 
             #businessNav .nav-link, #navbarBrand {
@@ -58,6 +60,7 @@
 
         <div class="container mt-3">This is where you can manage your business' products and services.</div>
 
+        <!-- Preview of store pag and product card -->
         <div id="feedContainer" class="container my-2">
 
             <div class="row">
