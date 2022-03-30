@@ -49,6 +49,7 @@
             </div>
         </div>
         <form class="p-5" action="{% url 'flickboutique:processEditedBusiness' %}" method="post">
+            {% csrf_token %}
             <h2>Change Address:</h2>
             <input type="hidden" name="user" value="{{ request.user.username }}">
             <input type="text" class="form-control mb-3" name="editStreetAddress" placeholder="{{ businessInfo.streetAddress }}" required>
