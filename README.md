@@ -34,8 +34,8 @@ You may either access the deployed version by going to [https://billbao.app](htt
 ## Bugs and other issues noted from user feedback
 - Users also noticed that they could not log in after we updated the site. This was fixed by moving to PostgreSQL.
 - Users could not sign up using a phone number with a leading zero (this was fixed by adding the ability to parse phone numbers).
-- There will sometimes be an exception that is thrown when clicking on the logo to return to the home page.
-- There are no notifications given or sent when a message is sent between users.
+- Users would be redirected to a nonexisitent URL when clicking on the logo to return to the home page from the messages page. (This was fixed by changing the `href` tag of the link in the navbar.)
+- There are no device notifications given or sent when a message is sent between users.
 
 ## Technical answers on competition questions
 - Google technology used: Google Fonts. Google Fonts was integrated into the application to make using custom fonts clean and quick for business users, without them having to worry about uploading their own fonts to the server, which would take up time and space. They can use custom fonts provided that they are on Google Fonts as well.
