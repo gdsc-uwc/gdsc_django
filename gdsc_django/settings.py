@@ -1,5 +1,4 @@
 import os
-from tkinter import FALSE
 
 """
 Django settings for gdsc_django project.
