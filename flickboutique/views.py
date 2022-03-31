@@ -825,9 +825,8 @@ def addCustomerMessage(request):
     if request.method == 'POST':
         business = request.POST.get('business')
         newMessage = models.Message.objects.create(sender=request.user, body=request.POST.get('sentMessage'))
-        conversation = models.Conversation.objects.get(business=User.objects.get(username=business), customer=request.user).messages.add(newMessage)
+        models.Conversation.objects.get(business=User.objects.get(username=business), customer=request.user).messages.add(newMessage)
         newMessage.save()
-        conversation.save()
 
     
         return HttpResponseRedirect(reverse('flickboutique:orderCustomerConversation', kwargs={'business': business}))
@@ -861,9 +860,8 @@ def addBusinessMessage(request):
     if request.method == 'POST':
         customer = request.POST.get('customer')
         newMessage = models.Message.objects.create(sender=request.user, body=request.POST.get('sentMessage'))
-        conversation = models.Conversation.objects.get(business=request.user, customer=User.objects.get(username=customer)).messages.add(newMessage)
+        models.Conversation.objects.get(business=request.user, customer=User.objects.get(username=customer)).messages.add(newMessage)
         newMessage.save()
-        conversation.save()
 
         return HttpResponseRedirect(reverse('flickboutique:orderBusinessConversation', kwargs={'customer': customer, 'business': request.user.username}))
 
