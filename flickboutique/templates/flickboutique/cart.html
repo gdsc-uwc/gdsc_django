@@ -33,7 +33,7 @@
                 </ul>
             {% empty %}
             <!-- Shopping cart is empty -->
-                <p>Your shopping cart is empty.</p>
+                <p class="container">Your shopping cart is empty.</p>
                 <a class="btn btn-primary" href="{% url 'flickboutique:customerHome' %}">Buy Now!</a>
             {% endfor %}
             <!-- Allow user to check out if cart is not empty -->
@@ -44,7 +44,7 @@
             {% endif %}
         {% else %}
         <!-- Display an empty shopping cart if cart has not been initialised -->
-            <p>Your shopping cart is empty.</p>
+            <p class="container">Your shopping cart is empty.</p>
             <a class="btn btn-primary" href="{% url 'flickboutique:customerHome' %}">Buy Now!</a>
         {% endif %}
     </div>

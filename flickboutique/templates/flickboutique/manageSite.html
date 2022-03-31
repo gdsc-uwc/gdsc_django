@@ -220,6 +220,8 @@
         <input class="form-control" type="text" name="font" placeholder="Type in the name of the font you want to use" required>
         <input type="submit" value="Change font" class="btn btn-primary" name="fontChange">
     </form>
+    {% else %}
+    <p>You can change your logo after you have custom colors for your page.</p>
     {% endif %}
 
 {% endblock %}

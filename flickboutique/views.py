@@ -634,7 +634,7 @@ def processEditedBusiness(request):
             business.postalCode = postalCode
             business.save()
         
-    return HttpResponseRedirect(reverse('flickboutique:businessHome'))
+    return HttpResponseRedirect(reverse('flickboutique:editBusinessProfilePage', kwargs={'username': request.user.username}))
 
 
 # Shopping cart display page
