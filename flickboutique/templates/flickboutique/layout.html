@@ -141,7 +141,7 @@
             <header id="businessNav" class="navbar navbar-expand-sm navbar-custom navbar-light sticky-top">
                 
                 <div class="container-fluid">
-                    <a class="navbar-brand" id="navbarBrand" href=".">{% if businessInfo.colorScheme.logo %}<img src="{{ businessInfo.colorScheme.logo.url }}" height="50px">{% else %}{{ businessInfo.user.first_name }}{% endif %}{% if not businessInfo %}<img src="{{ defaultScheme.logo.url }}" height="50px">{% endif %}</a>
+                    <a class="navbar-brand" id="navbarBrand" href="{% url 'flickboutique:customerHome' %}">{% if businessInfo.colorScheme.logo %}<img src="{{ businessInfo.colorScheme.logo.url }}" height="50px">{% else %}{{ businessInfo.user.first_name }}{% endif %}{% if not businessInfo %}<img src="{{ defaultScheme.logo.url }}" height="50px">{% endif %}</a>
                     
                     <!-- Navigation menu-->
                     <li id="navMenu" class="nav-item dropdown dropdown-menu-right">
