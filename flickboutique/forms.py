@@ -54,6 +54,6 @@ class BusinessLoginForm(forms.Form):
 class ProductRegistrationForm(forms.Form):
     productName = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Product Name'}), label='Product Name', max_length=64)
     productDepartment = forms.IntegerField(widget=forms.Select(attrs={'class': 'form-control mb-3', 'placeholder': 'Product Name'}, choices=models.ProductDepartment.objects.all().values_list('id', 'departmentName')), label='Product Department')
-    productPrice = forms.FloatField(widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Price (in Rands)'}), label='Set Price')
+    productPrice = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Price (in Rands)', 'min': '0',}), label='Set Price')
     productInformation = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control mb-3', 'placeholder': 'Product Information'}), label='Product Information')
     productImage = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control mb-3'}), label='Product Image')
