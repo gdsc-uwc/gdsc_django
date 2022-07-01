@@ -35,19 +35,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_CREDENTIALS = True
 
-
-CSRF_TRUSTED_ORIGINS = ['https://billbao.app']
-
-CORS_REPLACE_HTTPS_REFERER = True
-
-CSRF_COOKIE_DOMAIN = 'billbao.app'
-
-CORS_ORIGIN_WHITELIST = (
-    'https://billbao.app',
-    'billbao.app',
-)
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -99,15 +86,8 @@ WSGI_APPLICATION = 'gdsc_django.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django',
-        'USER': 'gdscPostgres',
-        'PASSWORD': 'UWC!1960',
-        'HOST': 'billbao-db.postgres.database.azure.com',
-        'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require',
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
