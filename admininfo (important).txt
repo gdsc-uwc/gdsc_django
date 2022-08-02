@@ -1,6 +1,0 @@
-Important information to be able to use admin:
-
-username = gdscUWC
-password= J[ym/#e{D8?V-gC:^rqA
-
-gdscPostgres -> credentials for billbao-db password is UWC!1960
